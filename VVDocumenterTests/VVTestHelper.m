@@ -3,8 +3,26 @@
 //  VVDocumenter-Xcode
 //
 //  Created by 王 巍 on 13-7-19.
-//  Copyright (c) 2013年 OneV's Den. All rights reserved.
 //
+//  Copyright (c) 2015 Wei Wang <onevcat@gmail.com>
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy
+//  of this software and associated documentation files (the "Software"), to deal
+//  in the Software without restriction, including without limitation the rights
+//  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//  copies of the Software, and to permit persons to whom the Software is
+//  furnished to do so, subject to the following conditions:
+//
+//  The above copyright notice and this permission notice shall be included in
+//  all copies or substantial portions of the Software.
+//
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+//  THE SOFTWARE.
 
 #import "VVTestHelper.h"
 
@@ -30,7 +48,8 @@ static NSArray *_typeStrings;
 {
     NSArray *methods = @[@"+ (ADTransition *)nullTransition;",
                          @"   -    (BOOL) application: (UIApplication *) application  \n didFinishLaunchingWithOptions: (NSDictionary *) launchOptions;",
-                         @"- (id)initWithDuration:(CFTimeInterval)duration sourceRect:(CGRect)sourceRect {"];
+                         @"- (id)initWithDuration:(CFTimeInterval)duration sourceRect:(CGRect)sourceRect {",
+                         @"-(void)whenLinked:(void (^)(void))actionHandler;"];
     
     NSArray *functions = @[@"void dosomething ( int x, int  y );",
                            @"int main(int argc, char *argv[]) \n {",
@@ -68,7 +87,13 @@ static NSArray *_typeStrings;
 
     NSArray *swiftFunctions = @[@"func sayHello(personName: String) -> String  {",
                                 @"func halfOpenRangeLength(start: Int, end: Int) -> Int\n  {",
-                                @"func sayHelloWorld() ->String"];
+                                @"func sayHelloWorld() ->String",
+                                @"func testParamsType(var a: Int) {",
+                                @"init(style: Style, gearing: Gearing, handlebar: Handlebar, frameSize centimeters: Int) {",
+                                @"public subscript(key: KeyType)-> ValueType? {",
+                                @"func methodCouldThrows(count: Int) throws -> Int {",
+                                @"func methodCouldThrows() throws {",
+                                @"func methodCouldThrows(count: Int, name: String, f: (Int, String) throws -> Void) rethrows -> Int {"];
     
     /*
     //Now there is no difference between Objective-C (C) struct and Swift struct. Ignore this.
@@ -86,14 +111,19 @@ static NSArray *_typeStrings;
                                  @"lazy var importer = DataImporter()",
                                  @"private ( set ) var distanceTravelled:Double"];
     
-    return @[methods,functions,properties,macros,structs,enums,unions,others,compileKeywords,swiftFunctions,swiftEnum,swiftProperties];
+    NSArray *swiftExtension = @[@"extension SomeViewController: UITableViewDelegate {",
+                                @"extension MyClass \n {",
+                                @"private extension PP : DelegateA, DelegateB {"];
+    
+    return @[methods,functions,properties,macros,structs,enums,unions,others,compileKeywords,swiftFunctions,swiftEnum,swiftProperties, swiftExtension];
 }
 
 +(NSArray *) uniformCodes
 {
     NSArray *methods = @[@"+(ADTransition *)nullTransition;",
                          @"   -(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions;",
-                         @"-(id)initWithDuration:(CFTimeInterval)duration sourceRect:(CGRect)sourceRect {"];
+                         @"-(id)initWithDuration:(CFTimeInterval)duration sourceRect:(CGRect)sourceRect {",
+                         @"-(void)whenLinked:(void(^)(void))actionHandler;"];
     
     NSArray *functions = @[@"void dosomething( int x, int  y );",
                            @"int main(int argc, char *argv[]){",
@@ -106,7 +136,7 @@ static NSArray *_typeStrings;
 
     NSArray *macros = @[@"#define MAX(A,B)({",
                         @"#define MIN(A,B)((A)<(B)?(A):(B))",
-                        @"#define ABS(A)((A)< 0 ?(-(A)) :(A))"];
+                        @"#define ABS(A)((A)< 0 ?(-(A)):(A))"];
 
     NSArray *structs = @[@"struct Foo {",
                          @"   struct node {",
@@ -132,7 +162,12 @@ static NSArray *_typeStrings;
     NSArray *swiftFunctions = @[@"func sayHello(personName: String)-> String  {",
                                 @"func halfOpenRangeLength(start: Int, end: Int)-> Int {",
                                 @"func sayHelloWorld()->String",
-                                @"init(style: Style, gearing: Gearing, handlebar: Handlebar, frameSize centimeters: Int) {"];
+                                @"func testParamsType(var a: Int){",
+                                @"init(style: Style, gearing: Gearing, handlebar: Handlebar, frameSize centimeters: Int){",
+                                @"public subscript(key: KeyType)-> ValueType? {",
+                                @"func methodCouldThrows(count: Int)throws -> Int {",
+                                @"func methodCouldThrows()throws {",
+                                @"func methodCouldThrows(count: Int, name: String, f:(Int, String)throws -> Void)rethrows -> Int {"];
     
     /*
      //Now there is no difference between Objective-C (C) struct and Swift struct. Ignore this.
@@ -150,7 +185,11 @@ static NSArray *_typeStrings;
                                  @"lazy var importer = DataImporter()",
                                  @"private( set )var distanceTravelled:Double"];
     
-    return @[methods,functions,properties,macros,structs,enums,unions,others,compileKeywords,swiftFunctions,swiftEnum,swiftProperties];
+    NSArray *swiftExtension = @[@"extension SomeViewController: UITableViewDelegate {",
+                                @"extension MyClass {",
+                                @"private extension PP : DelegateA, DelegateB {"];
+    
+    return @[methods,functions,properties,macros,structs,enums,unions,others,compileKeywords,swiftFunctions,swiftEnum,swiftProperties, swiftExtension];
 }
 
 +(NSArray *) arrayOfExceptCodeType:(NSString *)type
@@ -167,7 +206,8 @@ static NSArray *_typeStrings;
                          @"vv_isComplieKeyword",
                          @"vv_isSwiftFunction",
                          @"vv_isSwiftEnum",
-                         @"vv_isSwiftProperty"];
+                         @"vv_isSwiftProperty",
+                         @"vv_isSwiftExtension"];
     }
     
     return [_typeStrings arrayByRemovingObject:type];
